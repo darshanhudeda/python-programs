@@ -1,0 +1,180 @@
+<!-- Create a form for Employee information. Write JavaScript code to find DA, HRA, PF, TAX, 
+Gross pay, Deduction and Net pay. -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Employee Information & Salary Calculator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f7f6;
+            margin: 20px;
+        }
+        .container {
+            max-width: 600px;
+            background: white;
+            padding: 25px;
+            margin: auto;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+        h2, h3 {
+            text-align: center;
+            color: #333;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 5px;
+            color: #555;
+        }
+        input[type="text"], input[type="number"] {
+            width: 100%;
+            padding: 10px;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+        input[readonly] {
+            background-color: #e9ecef;
+            color: #495057;
+            font-weight: bold;
+        }
+        button {
+            width: 100%;
+            padding: 12px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 16px;
+            cursor: pointer;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+        button:hover {
+            background-color: #218838;
+        }
+        .results-section {
+            margin-top: 25px;
+            border-top: 2px dashed #ccc;
+            padding-top: 20px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>Employee Information Form</h2>
+    
+    <form id="employeeForm">
+        <!-- Input Fields -->
+        <div class="form-group">
+            <label for="empId">Employee ID:</label>
+            <input type="text" id="empId" placeholder="Enter Employee ID" required>
+        </div>
+        
+        <div class="form-group">
+            <label for="empName">Employee Name:</label>
+            <input type="text" id="empName" placeholder="Enter Employee Name" required>
+        </div>
+        
+        <div class="form-group">
+            <label for="basicPay">Basic Pay (₹):</label>
+            <input type="number" id="basicPay" placeholder="Enter Basic Pay" min="0" required>
+        </div>
+
+        <button type="button" onclick="calculateSalary()">Calculate Salary</button>
+
+        <!-- Calculated Read-Only Fields -->
+        <div class="results-section">
+            <h3>Salary Breakdown</h3>
+            
+            <div class="form-group">
+                <label for="da">Dearness Allowance (DA - 40%):</label>
+                <input type="text" id="da" readonly>
+            </div>
+            
+            <div class="form-group">
+                <label for="hra">House Rent Allowance (HRA - 20%):</label>
+                <input type="text" id="hra" readonly>
+            </div>
+            
+            <div class="form-group">
+                <label for="grossPay">Gross Pay:</label>
+                <input type="text" id="grossPay" readonly>
+            </div>
+            
+            <div class="form-group">
+                <label for="pf">Provident Fund (PF - 12%):</label>
+                <input type="text" id="pf" readonly>
+            </div>
+            
+            <div class="form-group">
+                <label for="tax">Income Tax (TAX - 5%):</label>
+                <input type="text" id="tax" readonly>
+            </div>
+            
+            <div class="form-group">
+                <label for="deduction">Total Deductions:</label>
+                <input type="text" id="deduction" readonly>
+            </div>
+            
+            <div class="form-group">
+                <label for="netPay">Net Pay:</label>
+                <input type="text" id="netPay" style="background-color: #d4edda; color: #155724;" readonly>
+            </div>
+        </div>
+    </form>
+</div>
+
+<script>
+function calculateSalary() {
+    // 1. Fetch values from input fields
+    const basicPayInput = document.getElementById('basicPay').value;
+    
+    // Validation check
+    if (basicPayInput === '' || basicPayInput < 0) {
+        alert('Please enter a valid Basic Pay.');
+        return;
+    }
+    
+    const basicPay = parseFloat(basicPayInput);
+
+    // 2. Define salary calculation percentages
+    const daRate = 0.40;   // 40% of Basic Pay
+    const hraRate = 0.20;  // 20% of Basic Pay
+    const pfRate = 0.12;   // 12% of Basic Pay
+    const taxRate = 0.05;  // 5% of Basic Pay
+
+    // 3. Perform calculations
+    const da = basicPay * daRate;
+    const hra = basicPay * hraRate;
+    const grossPay = basicPay + da + hra;
+    
+    const pf = basicPay * pfRate;
+    const tax = basicPay * taxRate;
+    const deduction = pf + tax;
+    
+    const netPay = grossPay - deduction;
+
+    // 4. Update the read-only form fields with formatted numbers (2 decimal places)
+    document.getElementById('da').value = da.toFixed(2);
+    document.getElementById('hra').value = hra.toFixed(2);
+    document.getElementById('grossPay').value = grossPay.toFixed(2);
+    document.getElementById('pf').value = pf.toFixed(2);
+    document.getElementById('tax').value = tax.toFixed(2);
+    document.getElementById('deduction').value = deduction.toFixed(2);
+    document.getElementById('netPay').value = netPay.toFixed(2);
+}
+</script>
+
+</body>
+</html>
